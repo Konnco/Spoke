@@ -1,4 +1,4 @@
-import { Object3D, MeshBasicMaterial, DoubleSide, Mesh, sRGBEncoding, LinearFilter, PlaneBufferGeometry } from "three";
+import { Object3D, MeshBasicMaterial, FrontSide, Mesh, sRGBEncoding, LinearFilter, PlaneBufferGeometry } from "three";
 import loadTexture from "../utils/loadTexture";
 
 export const ImageProjection = {
@@ -16,11 +16,11 @@ export default class Artwork extends Object3D {
   constructor() {
     super();
     this._src = null;
-    this._width = 0;
+    this._width = 1;
 
     const geometry = new PlaneBufferGeometry();
     const material = new MeshBasicMaterial();
-    material.side = DoubleSide;
+    material.side = FrontSide;
     material.transparent = false;
     this._mesh = new Mesh(geometry, material);
     this._mesh.name = "ArtworkMesh";
@@ -55,14 +55,14 @@ export default class Artwork extends Object3D {
   set projection(projection) {
     const material = new MeshBasicMaterial();
     const geometry = new PlaneBufferGeometry();
-    material.side = DoubleSide;
+    material.side = FrontSide;
     material.map = this._texture;
     material.transparent = false;
 
     this._projection = projection;
 
     const nextMesh = new Mesh(geometry, material);
-    nextMesh.name = "ImageMesh";
+    nextMesh.name = "ArtworkMesh";
     nextMesh.visible = this._mesh.visible;
 
     const meshIndex = this.children.indexOf(this._mesh);
@@ -108,10 +108,12 @@ export default class Artwork extends Object3D {
   }
 
   onResize() {
-    const ratio = (this._texture.image.width || 1.0) / (this._texture.image.height || 1.0);
-    const width = Math.min(this._width);
-    const height = Math.min(this._width / ratio);
-    this._mesh.scale.set(width, height, 1);
+    if (this._texture) {
+      const ratio = (this._texture.image.width || 1.0) / (this._texture.image.height || 1.0);
+      const width = Math.min(this._width) * 2;
+      const height = Math.min(this._width / ratio) * 2;
+      this._mesh.scale.set(width, height, 1.5);
+    }
   }
 
   copy(source, recursive = true) {
@@ -131,6 +133,7 @@ export default class Artwork extends Object3D {
 
     this.projection = source.projection;
     this.src = source.src;
+    this.width = source.width;
 
     return this;
   }
