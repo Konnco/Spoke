@@ -49,6 +49,9 @@ import AudioNodeEditor from "./ui/properties/AudioNodeEditor";
 import ScenePreviewCameraNode from "./editor/nodes/ScenePreviewCameraNode";
 import ScenePreviewCameraNodeEditor from "./ui/properties/ScenePreviewCameraNodeEditor";
 
+import ArtworkNode from "./editor/nodes/ArtworkNode";
+import ArtworkNodeEditor from "./ui/properties/ArtworkNodeEditor";
+
 import SketchfabSource from "./ui/assets/sources/SketchfabSource";
 import PolySource from "./ui/assets/sources/PolySource";
 import BingImagesSource from "./ui/assets/sources/BingImagesSource";
@@ -78,6 +81,7 @@ export function createEditor(api, settings) {
   editor.registerNode(SkyboxNode, SkyboxNodeEditor);
   editor.registerNode(FloorPlanNode, FloorPlanNodeEditor);
   editor.registerNode(ImageNode, ImageNodeEditor);
+  editor.registerNode(ArtworkNode, ArtworkNodeEditor);
   editor.registerNode(VideoNode, VideoNodeEditor);
   editor.registerNode(AudioNode, AudioNodeEditor);
   editor.registerNode(SpawnerNode, SpawnerNodeEditor);
