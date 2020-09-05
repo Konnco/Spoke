@@ -1,5 +1,5 @@
 import EditorNodeMixin from "./EditorNodeMixin";
-import Artwork, { ImageAlphaMode } from "../objects/Artwork";
+import Artwork from "../objects/Artwork";
 import spokeLogoSrc from "../../assets/spoke-icon.png";
 import { RethrownError } from "../utils/errors";
 import { getObjectPerfIssues, maybeAddLargeFileIssue } from "../utils/performance";
@@ -10,19 +10,27 @@ export default class ArtworkNode extends EditorNodeMixin(Artwork) {
   static nodeName = "Artwork";
 
   static initialElementProps = {
-    src: new URL(spokeLogoSrc, location).href
+    src: new URL(spokeLogoSrc, location).href,
+    width: 1
   };
 
   static async deserialize(editor, json, loadAsync, onError) {
     const node = await super.deserialize(editor, json);
 
-    const { src, width, controls } = json.components.find(c => c.name === "artwork").props;
+    const { src, width, height, title, artist, medium, style, controls } = json.components.find(
+      c => c.name === "artwork"
+    ).props;
 
     loadAsync(
       (async () => {
         await node.load(src, onError);
         node.controls = controls || false;
         node.width = width;
+        node.height = height;
+        node.title = title;
+        node.artist = artist;
+        node.medium = medium;
+        node.style = style;
       })()
     );
 
@@ -103,8 +111,6 @@ export default class ArtworkNode extends EditorNodeMixin(Artwork) {
     super.copy(source, recursive);
 
     this.controls = source.controls;
-    this.alphaMode = source.alphaMode;
-    this.alphaCutoff = source.alphaCutoff;
     this._canonicalUrl = source._canonicalUrl;
 
     return this;
@@ -112,12 +118,15 @@ export default class ArtworkNode extends EditorNodeMixin(Artwork) {
 
   serialize() {
     return super.serialize({
-      image: {
+      artwork: {
         src: this._canonicalUrl,
         controls: this.controls,
-        alphaMode: this.alphaMode,
-        alphaCutoff: this.alphaCutoff,
-        projection: this.projection
+        width: this.width,
+        height: this.height,
+        title: this.title,
+        artist: this.artist,
+        medium: this.medium,
+        style: this.style
       }
     });
   }
@@ -128,14 +137,15 @@ export default class ArtworkNode extends EditorNodeMixin(Artwork) {
     const imageData = {
       src: this._canonicalUrl,
       controls: this.controls,
-      alphaMode: this.alphaMode,
-      projection: this.projection
+      width: this.width,
+      height: this.height,
+      title: this.title,
+      artist: this.artist,
+      medium: this.medium,
+      style: this.style
     };
-    if (this.alphaMode === ImageAlphaMode.Mask) {
-      imageData.alphaCutoff = this.alphaCutoff;
-    }
 
-    this.addGLTFComponent("image", imageData);
+    this.addGLTFComponent("artwork", imageData);
     this.addGLTFComponent("networked", {
       id: this.uuid
     });

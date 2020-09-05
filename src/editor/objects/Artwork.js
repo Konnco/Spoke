@@ -16,7 +16,12 @@ export default class Artwork extends Object3D {
   constructor() {
     super();
     this._src = null;
-    this._width = 1;
+    this._width = 0;
+    this._height = 0;
+    this._title = "";
+    this._artist = "";
+    this._medium = "";
+    this._style = "";
 
     const geometry = new PlaneBufferGeometry();
     const material = new MeshBasicMaterial();
@@ -42,6 +47,46 @@ export default class Artwork extends Object3D {
 
   set width(width) {
     this._width = width;
+  }
+
+  get height() {
+    return this._height;
+  }
+
+  set height(height) {
+    this._height = height;
+  }
+
+  get title() {
+    return this._title;
+  }
+
+  set title(title) {
+    this._title = title;
+  }
+
+  get artist() {
+    return this._artist;
+  }
+
+  set artist(artist) {
+    this._artist = artist;
+  }
+
+  get medium() {
+    return this._medium;
+  }
+
+  set medium(medium) {
+    this._medium = medium;
+  }
+
+  get style() {
+    return this._style;
+  }
+
+  set style(style) {
+    this._style = style;
   }
 
   loadTexture(src) {
