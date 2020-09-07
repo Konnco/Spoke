@@ -17,7 +17,7 @@ export default class ArtworkNode extends EditorNodeMixin(Artwork) {
   static async deserialize(editor, json, loadAsync, onError) {
     const node = await super.deserialize(editor, json);
 
-    const { src, width, height, title, artist, medium, style, controls } = json.components.find(
+    const { src, width, height, title, artist, medium, style, controls, url } = json.components.find(
       c => c.name === "artwork"
     ).props;
 
@@ -31,6 +31,7 @@ export default class ArtworkNode extends EditorNodeMixin(Artwork) {
         node.artist = artist;
         node.medium = medium;
         node.style = style;
+        node.url = url;
       })()
     );
 
@@ -126,7 +127,8 @@ export default class ArtworkNode extends EditorNodeMixin(Artwork) {
         title: this.title,
         artist: this.artist,
         medium: this.medium,
-        style: this.style
+        style: this.style,
+        url: this.url
       }
     });
   }
@@ -142,7 +144,8 @@ export default class ArtworkNode extends EditorNodeMixin(Artwork) {
       title: this.title,
       artist: this.artist,
       medium: this.medium,
-      style: this.style
+      style: this.style,
+      url: this.url
     };
 
     this.addGLTFComponent("artwork", imageData);

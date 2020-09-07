@@ -22,6 +22,7 @@ export default class Artwork extends Object3D {
     this._artist = "";
     this._medium = "";
     this._style = "";
+    this._url = "";
 
     const geometry = new PlaneBufferGeometry();
     const material = new MeshBasicMaterial();
@@ -87,6 +88,14 @@ export default class Artwork extends Object3D {
 
   set style(style) {
     this._style = style;
+  }
+
+  get url() {
+    return this._url;
+  }
+
+  set url(url) {
+    this._url = url;
   }
 
   loadTexture(src) {
@@ -176,7 +185,6 @@ export default class Artwork extends Object3D {
       }
     }
 
-    this.projection = source.projection;
     this.src = source.src;
     this.width = source.width;
 

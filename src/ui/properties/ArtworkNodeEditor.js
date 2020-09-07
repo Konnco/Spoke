@@ -17,6 +17,7 @@ export default function ArtworkNodeEditor(props) {
   const onChangeArtist = useSetPropertySelected(editor, "artist");
   const onChangeMedium = useSetPropertySelected(editor, "medium");
   const onChangeStyle = useSetPropertySelected(editor, "style");
+  const onChangeUrl = useSetPropertySelected(editor, "url");
 
   return (
     <NodeEditor description={ArtworkNodeEditor.description} {...props}>
@@ -50,10 +51,13 @@ export default function ArtworkNodeEditor(props) {
         <StringInput value={node.artist} onChange={onChangeArtist} />
       </InputGroup>
       <InputGroup name="Artwork Medium">
-        <StringInput value={node.medium} onChange={onChangeStyle} />
+        <StringInput value={node.medium} onChange={onChangeMedium} />
       </InputGroup>
       <InputGroup name="Artwork Style">
-        <StringInput value={node.style} onChange={onChangeMedium} />
+        <StringInput value={node.style} onChange={onChangeStyle} />
+      </InputGroup>
+      <InputGroup name="Website Url">
+        <StringInput value={node.url} onChange={onChangeUrl} />
       </InputGroup>
     </NodeEditor>
   );
