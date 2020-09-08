@@ -22,6 +22,8 @@ export default class Artwork extends Object3D {
     this._artist = "";
     this._medium = "";
     this._style = "";
+    this._description = "";
+    this._year = "";
     this._url = "";
 
     const geometry = new PlaneBufferGeometry();
@@ -80,6 +82,22 @@ export default class Artwork extends Object3D {
 
   set medium(medium) {
     this._medium = medium;
+  }
+
+  get description() {
+    return this._description;
+  }
+
+  set description(description) {
+    this._description = description;
+  }
+
+  get year() {
+    return this._year;
+  }
+
+  set year(year) {
+    this._year = year;
   }
 
   get style() {
@@ -187,6 +205,14 @@ export default class Artwork extends Object3D {
 
     this.src = source.src;
     this.width = source.width;
+    this.height = source.height;
+    this.title = source.title;
+    this.artist = source.artist;
+    this.medium = source.medium;
+    this.style = source.style;
+    this.url = source.url;
+    this.year = source.year;
+    this.description = source.description;
 
     return this;
   }
