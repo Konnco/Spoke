@@ -1,4 +1,4 @@
-import { Object3D, MeshBasicMaterial, FrontSide, Mesh, sRGBEncoding, LinearFilter, PlaneBufferGeometry } from "three";
+import { Object3D, FrontSide, Mesh, sRGBEncoding, LinearFilter, PlaneBufferGeometry, MeshLambertMaterial } from "three";
 import loadTexture from "../utils/loadTexture";
 
 export const ImageProjection = {
@@ -27,7 +27,7 @@ export default class Artwork extends Object3D {
     this._url = "";
 
     const geometry = new PlaneBufferGeometry();
-    const material = new MeshBasicMaterial();
+    const material = new MeshLambertMaterial();
     material.side = FrontSide;
     material.transparent = false;
     this._mesh = new Mesh(geometry, material);
@@ -125,7 +125,7 @@ export default class Artwork extends Object3D {
   }
 
   set projection(projection) {
-    const material = new MeshBasicMaterial();
+    const material = new MeshLambertMaterial();
     const geometry = new PlaneBufferGeometry();
     material.side = FrontSide;
     material.map = this._texture;
@@ -174,6 +174,7 @@ export default class Artwork extends Object3D {
 
     this._mesh.material.map = this._texture;
     this._mesh.material.needsUpdate = true;
+    this._mesh.material.light = true;
     this._mesh.visible = true;
 
     return this;
