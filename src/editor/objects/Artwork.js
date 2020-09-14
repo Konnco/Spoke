@@ -5,7 +5,7 @@ import {
   sRGBEncoding,
   LinearFilter,
   PlaneBufferGeometry,
-  MeshLambertMaterial,
+  MeshStandardMaterial,
   BoxBufferGeometry
 } from "three";
 import loadTexture from "../utils/loadTexture";
@@ -36,7 +36,7 @@ export default class Artwork extends Object3D {
     this._url = "";
 
     const geometry = new PlaneBufferGeometry();
-    const material = new MeshLambertMaterial();
+    const material = new MeshStandardMaterial();
     material.side = FrontSide;
     material.transparent = false;
     this._mesh = new Mesh(geometry, material);
@@ -45,7 +45,7 @@ export default class Artwork extends Object3D {
     this._texture = null;
 
     const geometry2 = new BoxBufferGeometry();
-    const material2 = new MeshLambertMaterial();
+    const material2 = new MeshStandardMaterial();
     this._frametop = new Mesh(geometry2, material2);
     this._frametop.name = "ArtworkFrameTop";
     this._frameleft = new Mesh(geometry2, material2);
@@ -149,7 +149,7 @@ export default class Artwork extends Object3D {
   }
 
   set projection(projection) {
-    const material = new MeshLambertMaterial();
+    const material = new MeshStandardMaterial();
     const geometry = new PlaneBufferGeometry();
     material.side = FrontSide;
     material.map = this._texture;
@@ -162,7 +162,7 @@ export default class Artwork extends Object3D {
     nextMesh.visible = this._mesh.visible;
 
     const geometry2 = new BoxBufferGeometry();
-    const material2 = new MeshLambertMaterial();
+    const material2 = new MeshStandardMaterial({ color: "#000" });
 
     const _frametop = new Mesh(geometry2, material2);
     _frametop.name = "ArtworkFrameTop";
