@@ -1,4 +1,13 @@
-import { Object3D, FrontSide, Mesh, sRGBEncoding, LinearFilter, PlaneBufferGeometry, MeshLambertMaterial } from "three";
+import {
+  Object3D,
+  FrontSide,
+  Mesh,
+  sRGBEncoding,
+  LinearFilter,
+  PlaneBufferGeometry,
+  MeshLambertMaterial,
+  BoxBufferGeometry
+} from "three";
 import loadTexture from "../utils/loadTexture";
 
 export const ImageProjection = {
@@ -34,6 +43,21 @@ export default class Artwork extends Object3D {
     this._mesh.name = "ArtworkMesh";
     this.add(this._mesh);
     this._texture = null;
+
+    const geometry2 = new BoxBufferGeometry();
+    const material2 = new MeshLambertMaterial();
+    this._frametop = new Mesh(geometry2, material2);
+    this._frametop.name = "ArtworkFrameTop";
+    this._frameleft = new Mesh(geometry2, material2);
+    this._frameleft.name = "ArtworkFrameLeft";
+    this._frameright = new Mesh(geometry2, material2);
+    this._frameright.name = "ArtworkFrameRight";
+    this._framebottom = new Mesh(geometry2, material2);
+    this._framebottom.name = "ArtworkFrameBottom";
+    this.add(this._frametop);
+    this.add(this._frameright);
+    this.add(this._frameleft);
+    this.add(this._framebottom);
   }
 
   get src() {
@@ -137,10 +161,26 @@ export default class Artwork extends Object3D {
     nextMesh.name = "ArtworkMesh";
     nextMesh.visible = this._mesh.visible;
 
+    const geometry2 = new BoxBufferGeometry();
+    const material2 = new MeshLambertMaterial();
+
+    const _frametop = new Mesh(geometry2, material2);
+    _frametop.name = "ArtworkFrameTop";
+    const _frameleft = new Mesh(geometry2, material2);
+    _frameleft.name = "ArtworkFrameLeft";
+    const _frameright = new Mesh(geometry2, material2);
+    _frameright.name = "ArtworkFrameRight";
+    const _framebottom = new Mesh(geometry2, material2);
+    _framebottom.name = "ArtworkFrameBottom";
+
     const meshIndex = this.children.indexOf(this._mesh);
 
     if (meshIndex === -1) {
       this.add(nextMesh);
+      this.add(_frametop);
+      this.add(_frameleft);
+      this.add(_frameright);
+      this.add(_framebottom);
     } else {
       this.children.splice(meshIndex, 1, nextMesh);
       nextMesh.parent = this;
@@ -176,6 +216,15 @@ export default class Artwork extends Object3D {
     this._mesh.material.needsUpdate = true;
     this._mesh.material.light = true;
     this._mesh.visible = true;
+    this._framebottom.receiveShadow = true;
+    this._frametop.receiveShadow = true;
+    this._frameleft.receiveShadow = true;
+    this._frameright.receiveShadow = true;
+
+    this._framebottom.castShadow = true;
+    this._frametop.castShadow = true;
+    this._frameleft.castShadow = true;
+    this._frameright.castShadow = true;
 
     return this;
   }
@@ -186,6 +235,19 @@ export default class Artwork extends Object3D {
       const width = Math.min(this._width) * 2;
       const height = Math.min(this._width / ratio) * 2;
       this._mesh.scale.set(width, height, 1.5);
+      // this._frame.scale.set(width + 0.3, height + 0.3, 0.03);
+      this._frametop.scale.set(width + 0.3, 0.15, 0.05);
+      this._framebottom.scale.set(width + 0.3, 0.15, 0.05);
+      this._frameleft.scale.set(0.15, height + 0.3, 0.05);
+      this._frameright.scale.set(0.15, height + 0.3, 0.05);
+
+      // console.log(width / 2 - 0.15);
+      this._frametop.position.setY(height / -2 - 0.075);
+      this._framebottom.position.setY(height / 2 + 0.075);
+      this._frameleft.position.setX(width / -2 - 0.075);
+      this._frameright.position.setX(width / 2 + 0.075);
+
+      // this._mesh.translateZ(0.031);
     }
   }
 
